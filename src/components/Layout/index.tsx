@@ -182,7 +182,7 @@ export default function Layout({
               textColor="inherit"
               variant="fullWidth"
             >
-              {pages.map((page, index) => (
+              {pages?.map((page, index) => (
                 <Tab key={page.name} label={page.name} {...a11yProps(index)} />
               ))}
             </Tabs>
@@ -209,7 +209,7 @@ export default function Layout({
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {settings?.map((setting) => (
                 <MenuItem
                   key={setting.name}
                   component={Link}
@@ -245,9 +245,9 @@ export default function Layout({
           </IconButton>
         </DrawerHeader>
         <Divider />
-        {drawerItems.map((item, index) => (
+        {drawerItems?.map((item, index) => (
           <List key={"key" + index}>
-            {item.map((text, index) => (
+            {item?.map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -262,7 +262,7 @@ export default function Layout({
       <Container disableGutters >
       <Main open={open}>
         <DrawerHeader />
-        {pages.map((page, index) => (
+        {pages?.map((page, index) => (
           <TabPanel key={page.name} value={value} index={index}>
             <page.component />
           </TabPanel>
