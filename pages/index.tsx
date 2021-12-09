@@ -13,6 +13,7 @@ const data = {
     {component: About, name: 'Home'},
   ]
 }
+
 export default function Index() {
   return (
     <Container maxWidth="sm">

@@ -17,7 +17,16 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { Avatar, Container, Menu, MenuItem, Tab, Tabs, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  Container,
+  Menu,
+  MenuItem,
+  Tab,
+  Tabs,
+  Tooltip,
+} from "@mui/material";
+import SwipeableViews from "react-swipeable-views";
 import Link from "../../utils/Link";
 
 const drawerWidth = 240;
@@ -27,9 +36,18 @@ const settings = [
   { name: "Logout", link: "/logout" },
 ];
 const drawerItems = [
-  ["Class", "Calendar"],
-  ["To Review", "Class Detail"],
-  ["Archived Class", "Setting"],
+  [
+    { name: "Class", link: "/class" },
+    { name: "Calendar", link: "/calendar" },
+  ],
+  [
+    { name: "To Review", link: "/review" },
+    { name: "Class Details", link: "/details" },
+  ],
+  [
+    { name: "Archived Class", link: "/archived" },
+    { name: "Setting", link: "/settings" },
+  ],
 ];
 
 interface TabPanelProps {
@@ -52,26 +70,6 @@ function a11yProps(index: number) {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
 }
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
@@ -119,11 +117,27 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function Layout({
-  pages,
-}: {
-  pages: PageProps[];
-}) {
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+export default function Layout({ pages }: { pages: PageProps[] }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -139,6 +153,10 @@ export default function Layout({
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const handleChangeIndex = (index) => {
+    setValue(index);
   };
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -248,26 +266,37 @@ export default function Layout({
         {drawerItems?.map((item, index) => (
           <List key={"key" + index}>
             {item?.map((text, index) => (
-              <ListItem button key={text}>
+              <ListItem
+                button
+                component={Link}
+                href={text.link}
+                key={text.name}
+              >
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={text.name} />
               </ListItem>
             ))}
           </List>
         ))}
         ;
       </Drawer>
-      <Container disableGutters >
-      <Main open={open}>
-        <DrawerHeader />
-        {pages?.map((page, index) => (
-          <TabPanel key={page.name} value={value} index={index}>
-            <page.component />
-          </TabPanel>
-        ))}
-      </Main>
+      <Container disableGutters>
+        <Main open={open}>
+          <DrawerHeader />
+          <SwipeableViews
+            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+            index={value}
+            onChangeIndex={handleChangeIndex}
+          >
+            {pages?.map((page, index) => (
+              <TabPanel key={page.name} value={value} index={index}>
+                <page.component />
+              </TabPanel>
+            ))}
+          </SwipeableViews>
+        </Main>
       </Container>
     </Box>
   );
