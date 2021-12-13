@@ -3,7 +3,7 @@ import Layout from "../src/components/Layout";
 
 const data = {
   pages:[
-    {component: (() => (<h1>Page is being built 😅</h1>)), name: 'Home'},
+    {component: (() => (<h1>Page is being built 😅</h1>)), name: 'Unknown page'},
   ]
 }
 

@@ -25,6 +25,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/react-swipeable-views": "^0.13.1",
     "typescript": "latest"
   }
 }

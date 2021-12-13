@@ -8,7 +8,7 @@ export default function About() {
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Next.js with TypeScript example
+          2
         </Typography>
       </Box>
     </Container>

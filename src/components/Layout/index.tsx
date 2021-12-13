@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import Link from "../../utils/Link";
+import Copyright from "../Copyright";
 
 const drawerWidth = 240;
 
@@ -155,7 +156,7 @@ export default function Layout({ pages }: { pages: PageProps[] }) {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index) => {
+  const handleChangeIndex = (index: number) => {
     setValue(index);
   };
 
@@ -172,6 +173,7 @@ export default function Layout({ pages }: { pages: PageProps[] }) {
   };
 
   return (
+    <>
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
@@ -299,5 +301,7 @@ export default function Layout({ pages }: { pages: PageProps[] }) {
         </Main>
       </Container>
     </Box>
+    <Copyright />
+    </>
   );
 }
